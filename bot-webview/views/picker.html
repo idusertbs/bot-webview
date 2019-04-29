@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Picker Component</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="/webvUI.min.css">
+    <link rel="stylesheet" href="/webvUI-menu.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webvUI.min.js"></script>
+    <script type="text/javascript" src="/webvUI-menu.js"></script>
+    <script type="text/javascript" src="/webvUI-slider.js"></script>
+    <script type="text/javascript">
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
+    </script>
+</head>
+
+<body style="background-color:#fafafa;">
+    <div class="main-container">
+        <div class="page picker js_show">
+            <div class="page__hd">
+                <h1 class="page__title">Picker</h1>
+                <p class="page__desc">Stylized picker examples below</p>
+            </div>
+            <div class="page__bd page__bd_spacing">
+                <a href="javascript:;" class="webvUI-btn webvUI-btn_default" id="showPicker">Selecciona tu Modelo</a>
+                <a href="javascript:;" class="webvUI-btn webvUI-btn_default" id="showYearPicker">Escoge el año</a>
+              <a href="javascript:;" class="webvUI-btn webvUI-btn_default" id="showDatePicker">Fecha de pedido</a>
+            </div>
+          
+          
+          <div class="page__bd page__bd_spacing">
+                <div class="webvUI-cells__title">
+                    Modelo
+                </div>
+                <div class="webvUI-cells">
+                    <div class="webvUI-cell">
+                        <div class="webvUI-cell__bd">
+                          <label class="webvUI-input" id="model_label"> </label>
+                        </div>
+                    </div>
+                </div>
+            
+            <div class="webvUI-cells__title">
+                    Año
+                </div>
+                <div class="webvUI-cells">
+                    <div class="webvUI-cell">
+                        <div class="webvUI-cell__bd">
+                            <label class="webvUI-input" id="year_label" > </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+      
+      
+      
+      
+      <div class="webvUI-bottombtn">
+        <a href="javascript:;" class="webvUI-btn webvUI-btn_primary" onclick="enviarPost()" id="showLoadingToast">Validate choice(s)</a>
+    </div>
+      
+      
+      <div id="loadingToast" style="display:none;">
+                <div class="webvUI-mask_transparent"></div>
+                <div class="webvUI-toast">
+                    <i class="webvUI-loading webvUI-icon_toast"></i>
+                    <p class="webvUI-toast__content">Loading</p>
+                </div>
+            </div>
+      
+        <script type="text/javascript" class="picker js_show">
+        $('#showPicker').on('click', function() {
+            webvUI.picker([{
+                label: 'Toyota',
+                value: 'Toyota'
+            }, {
+                label: 'Volvo',
+                value: 'Volvo'
+            }, {
+                label: 'Nissan',
+                value: 'Nissan'
+            }, {
+                label: 'Ferrari (disabled)',
+                disabled: true,
+                value: 'Ferrari'
+            }, {
+                label: 'Honda',
+                value: 'Honda'
+            }], {
+                onChange: function(result) {
+                    console.log(result);
+                },
+                onConfirm: function(result) {
+                  document.getElementById('model_label').textContent = result  
+                  console.log(result);
+                }
+            });
+        });
+        $('#showDatePicker').on('click', function() {
+            webvUI.datePicker({
+                start: 1990,
+                end: new Date().getFullYear(),
+                onChange: function(result) {
+                    console.log(result);
+                },
+                onConfirm: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+          
+        $('#showYearPicker').on('click', function() {
+          var arr = [];
+          for (var i = 0; i < 20; i++) { 
+              arr.push({label:2000+i, value: 2000+i});
+            }
+            webvUI.picker(arr, {
+                onChange: function(result) {
+                    
+                    console.log(result);
+                },
+                onConfirm: function(result) {
+                    document.getElementById('year_label').textContent = result 
+                    console.log(result);
+                }
+            });
+        });
+          
+         
+        
+          
+        function enviarPost(){
+          
+          var $loadingToast = $('#loadingToast');
+          $loadingToast.fadeIn(100);
+          setTimeout(function() {
+              $loadingToast.fadeOut(2000);
+            MessengerExtensions.requestCloseBrowser(function () {
+                    console.log('Window will be closed');
+                    }, function (error) {
+                      console.log('There is an error');
+                      console.log(error);
+                    });
+          }, 2000);
+          
+          var modelo = document.getElementById('model_label').textContent
+          var anio = document.getElementById('year_label').textContent
+          
+          var frase1 = "cuota de un "+modelo+" del "+anio;
+          
+          const url ="/picker";
+          
+          const data = {"frase":frase1};
+          
+          // enviar curl
+          // Para una mejor experiencia de usuario usar ajax asincrono
+          $.ajax({
+            type: 'POST',
+            url: url,
+            async:false,
+            data: JSON.stringify(data),
+            headers: {
+                'Content-Type':'application/json'
+            },
+            success: function (data) {
+                console.log(data);
+            },
+            dataType: 'json'
+          });
+      
+      //cerrar webview
+          
+          
+      
+    };
+        
+          
+        
+          
+          
+        </script>
+    </div>
+  
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selection List</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="/webvUI.min.css">
+    <link rel="stylesheet" href="/webvUI-menu.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webvUI.min.js"></script>
+    <script type="text/javascript" src="/webvUI-menu.js"></script>
+    <script type="text/javascript" src="/webvUI-slider.js"></script>
+    <script type="text/javascript">
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
+    </script>
+</head>
+
+<body style="background-color:#fafafa;">
+    <div class="main-container">
+    <div class="webvUI-mainwv-body panel">
+        <div class="page__hd">
+            <h1 class="page__title">Lista de Modelos de Autos</h1>
+            <p class="page__desc">
+                Selecciona una de la lista de opciones
+            </p>
+        </div>
+        <div class="page__bd">
+            <div class="webvUI-cells__title">Lista de Modelos</div>
+            <div class="webvUI-cells webvUI-cells_checkbox">
+                <label class="webvUI-cell webvUI-check__label" for="s11">
+                    <div class="webvUI-cell__hd">
+                        <input type="checkbox" class="webvUI-check" name="checkbox1" id="s11" value="cuota de un Toyota del 2000" checked="checked">
+                        <i class="webvUI-icon-checked"></i>
+                    </div>
+                    <div class="webvUI-cell__bd">
+                        <div class="webvUI-media-box webvUI-media-box_appmsg">
+                            <div class="webvUI-media-box__bd">
+                                <h4 class="webvUI-media-box__title">Toyota Yaris</h4>
+                                <p class="webvUI-media-box__desc">Modelo del año 2000</p>
+                            </div>
+                            <div class="webvUI-media-box__hd" style="margin-left: .8em;">
+                                <img class="webvUI-media-box__thumb" src="https://acs2.blob.core.windows.net/imgcatalogo/xl/VA_79ea8ddbdfcb4fd48990a7e076147158.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </label>
+                <label class="webvUI-cell webvUI-check__label" for="s12">
+                    <div class="webvUI-cell__hd">
+                        <input type="checkbox" class="webvUI-check" name="checkbox1" id="s12" value="cuota de un Volvo del 2010">
+                        <i class="webvUI-icon-checked"></i>
+                    </div>
+                    <div class="webvUI-cell__bd">
+                        <div class="webvUI-media-box webvUI-media-box_appmsg">
+                            <div class="webvUI-media-box__bd">
+                                <h4 class="webvUI-media-box__title">New Volvo</h4>
+                                <p class="webvUI-media-box__desc">Nueva generación de autos del año 2010</p>
+                            </div>
+                            <div class="webvUI-media-box__hd" style="margin-left: .8em;">
+                                <img class="webvUI-media-box__thumb" src="https://images.clarin.com/2018/09/26/VDeGcqS55_1256x620__1.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </label>
+                <label class="webvUI-cell webvUI-check__label" for="s13">
+                    <div class="webvUI-cell__hd">
+                        <input type="checkbox" class="webvUI-check" name="checkbox1" id="s13" value="cuota de un Nissan del 2018">
+                        <i class="webvUI-icon-checked"></i>
+                    </div>
+                    <div class="webvUI-cell__bd">
+                        <div class="webvUI-media-box webvUI-media-box_appmsg">
+                            <div class="webvUI-media-box__bd">
+                                <h4 class="webvUI-media-box__title">Nissan </h4>
+                                <p class="webvUI-media-box__desc">De la colección del año 2018</p>
+                            </div>
+                            <div class="webvUI-media-box__hd" style="margin-left: .8em;">
+                                <img class="webvUI-media-box__thumb" src="https://neoauto.com/noticias/wp-content/uploads/2015/09/Hyundai-y-sus-modelos-m%C3%A1s-vendidos-NeoAuto.com_.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </label>
+                <a href="javascript:void(0);" class="webvUI-cell webvUI-cell_link">
+                    <div class="webvUI-cell__bd">Add more</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="webvUI-bottombtn">
+        <a href="javascript:;" class="webvUI-btn webvUI-btn_primary" onclick="enviarPost()">Validate choice(s)</a>
+    </div>
+      
+      <div id="loadingToast" style="display:none;">
+                <div class="webvUI-mask_transparent"></div>
+                <div class="webvUI-toast">
+                    <i class="webvUI-loading webvUI-icon_toast"></i>
+                    <p class="webvUI-toast__content">Loading</p>
+                </div>
+            </div>
+
+    <script>
+      window.onbeforeunload = function(e) {
+        alert("I am an alert box!");
+        return 'Texto de aviso';
+      };
+      
+      
+      
+    function enviarPost(){
+      // loading icon
+      var $loadingToast = $('#loadingToast');
+          $loadingToast.fadeIn(100);
+          setTimeout(function() {
+              $loadingToast.fadeOut(2000);
+            MessengerExtensions.requestCloseBrowser(function () {
+                    console.log('Window will be closed');
+                    }, function (error) {
+                      console.log('There is an error');
+                      console.log(error);
+                    });
+          }, 2000);
+      
+      //capturar elemento seleccionado
+      
+      
+          var frase1 = "";
+          if(document.getElementById('s11').checked == true){
+            frase1 = document.getElementById('s11').value;
+          }
+          if(document.getElementById('s12').checked == true){
+            frase1 = document.getElementById('s12').value;
+          }
+          if(document.getElementById('s13').checked == true){
+            frase1 = document.getElementById('s13').value;
+          }
+          
+          
+      
+      
+          
+          const url ="/list";
+          
+          const data = {"frase":frase1};
+          
+          // enviar curl
+          // Para una mejor experiencia de usuario usar ajax asincrono
+          $.ajax({
+            type: 'POST',
+            url: url,
+            async:false,
+            data: JSON.stringify(data),
+            headers: {
+                'Content-Type':'application/json'
+            },
+            success: function (data) {
+                console.log(data);
+            },
+            dataType: 'json'
+          });
+      
+    };
+      
+      $('input[type="checkbox"]').on('change', function() {
+        $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+    });
+    
+    </script>
+    </div>
+</body>
+
+</html>
